@@ -1,19 +1,12 @@
 <html lang="en">
   <head>
 
-    <!-- 
-      This is the main Handlebars template for the site 
-      - When the user visits the homepage or submits a color the app calls the endpoints in server.js
-      - The server script passes data in here and the Handlebars code builds it into the HTML page
-    -->
-
     <meta charset="utf-8" />
     <link rel="icon" href="https://glitch.com/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{{seo.title}}</title>
 
-    <!-- Meta tags for SEO and social sharing -->
     <link rel="canonical" href="{{seo.url}}" />
     <meta name="description" content="{{seo.description}}" />
     <meta property="og:title" content="{{seo.title}}" />
@@ -23,14 +16,12 @@
     <meta property="og:image" content="{{seo.image}}" />
     <meta name="twitter:card" content="summary" />
 
-    <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <div class="wrapper">
       <div class="content" role="main">
 
-        <!-- This is the start of content for our page -->
         <h1 class="title">SLD</h1>
         <h2>
           <u>S</u>team
@@ -41,6 +32,12 @@
         {{#if error}}
           <p class="color-info" style="font-width: bold; color:red;">
             {{error}}
+          </p>
+        {{/if}}
+
+        {{#if success}}
+          <p class="color-info" style="font-width: bold; color:white;">
+            Operation completed successfully. It may take a while to take effect on the Steam servers, so please wait if you still see the leaderboards on the database.
           </p>
         {{/if}}
 
@@ -57,9 +54,11 @@
               {{/each}}
             </ul>
 
-            <form class="color-search" method="post">
-              <input type="hidden" value="delete" />
-
+            <form class="color-search" method="post" onsubmit="return confirm('Do you really wish to delete {{leaderboards.length}} elements?');">
+              <input type="hidden" name="delete" value="1" />
+              <input type="hidden" name="key" value="{{form.key}}" />
+              <input type="hidden" name="appid" value="{{form.appid}}" />
+                <input type="hidden" name="leaderboards" value="{{#each leaderboards}}{{this.name}},{{/each}}" />
               <button type="submit">Confirm</button>
             </form>
             <a href="/" class="cancelBtn">Cancel</a>
@@ -108,7 +107,7 @@
 
       </div>
     </div>
-    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
+
     <footer class="footer">
       <div class="links"></div>
       If you see me IRL
