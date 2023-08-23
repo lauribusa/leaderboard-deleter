@@ -1,0 +1,119 @@
+<html lang="en">
+  <head>
+
+    <!-- 
+      This is the main Handlebars template for the site 
+      - When the user visits the homepage or submits a color the app calls the endpoints in server.js
+      - The server script passes data in here and the Handlebars code builds it into the HTML page
+    -->
+
+    <meta charset="utf-8" />
+    <link rel="icon" href="https://glitch.com/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{{seo.title}}</title>
+
+    <!-- Meta tags for SEO and social sharing -->
+    <link rel="canonical" href="{{seo.url}}" />
+    <meta name="description" content="{{seo.description}}" />
+    <meta property="og:title" content="{{seo.title}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{seo.url}}" />
+    <meta property="og:description" content="{{seo.description}}" />
+    <meta property="og:image" content="{{seo.image}}" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content" role="main">
+
+        <!-- This is the start of content for our page -->
+        <h1 class="title">SLD</h1>
+        <h2>
+          <u>S</u>team
+          <u>L</u>eaderboard
+          <u>D</u>eleter
+        </h2>
+
+        {{#if error}}
+          <p class="color-info" style="font-width: bold; color:red;">
+            {{error}}
+          </p>
+        {{/if}}
+
+        <div class="color-form">
+          {{#if leaderboards}}
+            <span style="color:white;"># of leaderboards: {{leaderboards.length}}</span>
+            <ul class="leaderboardList">
+              {{#each leaderboards}}
+                <li class="leaderboard"><div>
+                    <p><b>ID:</b> {{this.id}}</p>
+                    <p><b>NAME:</b> {{this.name}}</p>
+                    <p><b># OF ENTRIES:</b> {{this.entries}}</p>
+                  </div></li>
+              {{/each}}
+            </ul>
+
+            <form class="color-search" method="post">
+              <input type="hidden" value="delete" />
+
+              <button type="submit">Confirm</button>
+            </form>
+            <a href="/" class="cancelBtn">Cancel</a>
+          {{else}}
+            <form class="color-search" method="post">
+              <div class="form-input">
+                <label for="name">
+                  Search text:
+                  <input
+                    id="name"
+                    name="name"
+                    required="required"
+                    type="text"
+                  />
+                </label>
+              </div>
+
+              <div class="form-input">
+                <label>
+                  AppID:
+                  <input
+                    id="appid"
+                    name="appid"
+                    required="required"
+                    type="text"
+                  />
+                </label>
+              </div>
+
+              <div class="form-input">
+                <label>
+                  Publisher API Key:
+                  <input
+                    id="key"
+                    name="key"
+                    required="required"
+                    type="password"
+                  />
+                </label>
+              </div>
+
+              <button type="submit">Submit</button>
+            </form>
+          {{/if}}
+        </div>
+
+      </div>
+    </div>
+    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
+    <footer class="footer">
+      <div class="links"></div>
+      If you see me IRL
+      <br />
+      buy me a beer thanks
+    </footer>
+  </body>
+</html>
